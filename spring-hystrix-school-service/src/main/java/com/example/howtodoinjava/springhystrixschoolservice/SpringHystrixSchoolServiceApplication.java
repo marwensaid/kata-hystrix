@@ -6,6 +6,8 @@ import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
 
 @SpringBootApplication
+@EnableHystrixDashboard
+@EnableCircuitBreaker
 public class SpringHystrixSchoolServiceApplication {
 
 	public static void main(String[] args) {

@@ -15,24 +15,39 @@ import com.example.howtodoinjava.springhystrixstudentservice.domain.Student;
 @RestController
 public class StudentServiceController {
 
-	private static Map<String, List<Student>> schoolDB;
+	private static Map<String, List<Student>> schooDB = new HashMap<String, List<Student>>();
 
 	static {
-		schoolDB = new HashMap<String, List<Student>>();
+		schooDB = new HashMap<String, List<Student>>();
 
 		List<Student> lst = new ArrayList<Student>();
+		Student std = new Student("Sajal", "Class IV");
+		lst.add(std);
+		std = new Student("Lokesh", "Class V");
+		lst.add(std);
 
-		// 2- create and add 2 student to firstSchool
+		schooDB.put("abcschool", lst);
 
-		// 3- create and add 2 student to secondSchool
+		lst = new ArrayList<Student>();
+		std = new Student("Kajal", "Class III");
+		lst.add(std);
+		std = new Student("Sukesh", "Class VI");
+		lst.add(std);
+
+		schooDB.put("xyzschool", lst);
 
 	}
 
-	// 4- expose student details for school : REST
+	@RequestMapping(value = "/getStudentDetailsForSchool/{schoolname}", method = RequestMethod.GET)
 	public List<Student> getStudents(@PathVariable String schoolname) {
 		System.out.println("Getting Student details for " + schoolname);
 
-		List<Student> studentList = schoolDB.get(schoolname);
+		List<Student> studentList = schooDB.get(schoolname);
+		if (studentList == null) {
+			studentList = new ArrayList<Student>();
+			Student std = new Student("Not Found", "N/A");
+			studentList.add(std);
+		}
 		return studentList;
 	}
 }
