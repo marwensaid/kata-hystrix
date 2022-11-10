@@ -16,27 +16,10 @@ public class StudentServiceDelegate {
 	@Autowired
 	RestTemplate restTemplate;
 
-	@HystrixCommand(fallbackMethod = "callStudentServiceAndGetData_Fallback")
-	public String callStudentServiceAndGetData(String schoolname) {
-		System.out.println("Getting School details for " + schoolname);
-		String response = restTemplate
-				.exchange("http://localhost:8098/getStudentDetailsForSchool/{schoolname}"
-				, HttpMethod.GET
-				, null
-				, new ParameterizedTypeReference<String>() {
-			}, schoolname).getBody();
+	// TODO call our student service with details : make sure to do http exchange method : call fallback method if my service is down
 
-		System.out.println("Response Received as " + response + " -  " + new Date());
-
-		return "NORMAL FLOW !!! - School Name -  " + schoolname + " :::  Student Details " + response + " -  " + new Date();
-	}
 	
-	@SuppressWarnings("unused")
-	private String callStudentServiceAndGetData_Fallback(String schoolname) {
-		System.out.println("Student Service is down!!! fallback route enabled...");
-
-		return "CIRCUIT BREAKER ENABLED!!!No Response From Student Service at this moment. Service will be back shortly - " + new Date();
-	}
+	// TODO make a hystrix fallback method
 
 	@Bean
 	public RestTemplate restTemplate() {

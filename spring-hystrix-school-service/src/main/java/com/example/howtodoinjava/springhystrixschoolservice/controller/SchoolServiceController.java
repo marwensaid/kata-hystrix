@@ -12,10 +12,9 @@ public class SchoolServiceController {
 	@Autowired
     StudentServiceDelegate studentServiceDelegate;
 
-    // 1- REST : expose school + call student service to det data
-    @GetMapping(value = "/getSchoolDetails/{schoolname}")
+    // TODO REST : expose school + call student service to det data
     public String getStudents(@PathVariable String schoolname) {
-        return studentServiceDelegate.callStudentServiceAndGetData(schoolname);
+        return null;
     }
 
 }
