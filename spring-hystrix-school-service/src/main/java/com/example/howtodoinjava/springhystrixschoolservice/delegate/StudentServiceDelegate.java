@@ -2,6 +2,7 @@ package com.example.howtodoinjava.springhystrixschoolservice.delegate;
 
 import java.util.Date;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.ParameterizedTypeReference;
@@ -16,10 +17,10 @@ public class StudentServiceDelegate {
 	@Autowired
 	RestTemplate restTemplate;
 	
-	@HystrixCommand(fallbackMethod = "callStudentServiceAndGetData_Fallback")
+	@HystrixCommand(fallbackMethod = "callStudentServiceAndGetData_Fallback", commandProperties = {@HystrixProperty(name = "execution.isolation.thread.timeoutInMillisecond", value = "1000")})
 	public String callStudentServiceAndGetData(String schoolname) {
 		System.out.println("Getting School details for " + schoolname);
-		String response = restTemplate
+		String response = this.restTemplate
 				.exchange("http://localhost:8098/getStudentDetailsForSchool/{schoolname}"
 				, HttpMethod.GET
 				, null
